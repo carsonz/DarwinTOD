@@ -1,0 +1,171 @@
+# Default Configuration for IALM
+
+# General Settings
+general:
+  project_name: "IALM"
+  version: "1.0.0"
+  debug: false
+  log_level: "INFO"
+  
+# Data Settings
+data:
+  # Dataset options: "multiwoz", "sgd"
+  default_dataset: "multiwoz"
+  data_dir: "data"
+  max_dialogue_turns: 30
+    
+  # MultiWoZ specific settings
+  multiwoz:
+    data_dir: "data/multiwoz21/data"
+    domains: ["restaurant", "hotel", "attraction", "train", "taxi", "hospital", "police"]
+    
+  # SGD specific settings
+  sgd:
+    data_dir: "data/sgd/data"
+    domains: ["Restaurants_1", "Hotels_1", "Attractions_1", "Flights_1", "Buses_1", "RentalCars_1", "Events_1"]
+
+# Memory Settings
+memory:
+  # Shared Structured Memory (SSM)
+  ssm:
+    ssm_dir: "data/ssm/"
+  
+  esb:
+    esb_datafile: "data/esb.json"
+
+# Agent Settings
+agents:
+
+  e2e:
+    model_name: "vllm"
+    temperature: 0.1
+    max_tokens: 8000
+
+  # DST Agent
+  dst:
+    model_name: "vllm"
+    temperature: 0.1
+    max_tokens: 8000
+    
+  # DP Agent
+  dp:
+    model_name: "vllm"
+    temperature: 0.1
+    max_tokens: 8000
+    
+  # NLG Agent
+  nlg:
+    model_name: "vllm"
+    temperature: 0.3
+    max_tokens: 8000
+    
+  # HSM Evolver Agent
+  hsm_evolver:
+    model_name: "vllm"
+    temperature: 0.2
+    max_tokens: 8000
+    update_interval: 5  # Update strategies every N dialogues
+    prune_threshold: 0.2  # Prune strategies with helpful/harmful ratio below this
+    
+  # User Sim Agent
+  user_sim:
+    model_name: "vllm"
+    temperature: 0.5
+    max_tokens: 8000
+
+# Experiment Settings
+experiments:
+  # Number of dialogues to run
+  num_dialogues: 100
+  
+  # Evaluation metrics
+  metrics:
+    - "inform_rate"
+    - "success_rate"
+    - "bleu"
+    - "strategy_utility"
+    
+  # Output settings
+  output_dir: "experiments"
+  save_dialogues: true
+  save_strategies: true
+
+# Logging Settings
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/ialm.log"
+  max_file_size: "10MB"
+  backup_count: 5
+
+# API Settings
+api:
+  # OpenAI API settings
+  openai:
+    api_key: ""  # Set this in your environment or override in local config
+    organization: ""  # Optional
+    base_url: "https://api.openai.com/v1"
+    max_retries: 3
+    retry_delay: 30  # seconds
+    
+  # Qwen API settings (Alibaba Cloud)
+  qwen:
+    api_key: ""  # Set this in your environment or override in local config
+    model: "qwen-turbo"  # Options: qwen-turbo, qwen-plus, qwen-max
+    base_url: "https://dashscope.aliyuncs.com/api/v1"
+    max_retries: 3
+    retry_delay: 30  # seconds
+    
+  # DeepSeek API settings
+  deepseek:
+    api_key: ""  # Set this in your environment or override in local config
+    model: "deepseek-chat"  # Options: deepseek-chat, deepseek-reasoner
+    base_url: "https://api.deepseek.com/v1"
+    max_retries: 3
+    retry_delay: 30  # seconds
+    
+  # MiniMax
+  minimaxi:
+    api_key: ""  # Set this in your environment or override in local config
+    model: "MiniMax-M2-Stable"
+    base_url: "https://api.minimaxi.com/v1"
+    max_retries: 3
+    retry_delay: 30  # seconds
+
+  # SJTU API settings
+  deepseekV3:
+    api_key: ""  # Set this in your environment or override in local config
+    model: "deepseek-v3"  # Options: deepseek-chat, deepseek-coder
+    base_url: "https://models.sjtu.edu.cn/api/v1"
+    max_retries: 3
+    retry_delay: 30  # seconds
+
+  # SJTU API settings
+  deepseekR1:
+    api_key: ""  # Set this in your environment or override in local config
+    model: "deepseek-r1"  # Options: deepseek-chat, deepseek-coder
+    base_url: "https://models.sjtu.edu.cn/api/v1"
+    max_retries: 3
+    retry_delay: 30  # seconds
+
+  # SJTU API settings
+  Qwen3-Coder:
+    api_key: ""  # Set this in your environment or override in local config
+    model: "qwen3coder"  # Options: deepseek-chat, deepseek-coder
+    base_url: "https://models.sjtu.edu.cn/api/v1"
+    max_retries: 3
+    retry_delay: 30  # seconds
+    
+  # vLLM API settings (for local open source models)
+  vllmLocal:
+    base_url: "http://localhost:8000/v1"  # Default vLLM server URL
+    model: "Qwen/Qwen2.5-3B-Instruct"  # Default model name
+    max_retries: 3
+    retry_delay: 30  # seconds
+
+  # Ollama API settings (for local open source models)
+  ollama:
+    base_url: "http://localhost:11434/v1"  # Default Ollama server URL
+    model: "qwen3:0.6b"  # Default model name
+    max_retries: 3
+    retry_delay: 10  # seconds
